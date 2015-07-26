@@ -15,6 +15,7 @@ class Table:
 
 
 	def playOneGame(self, cardDeck, stats):
+		'''Does the work of starting one game of blackJack using the given deck and making decisions based on the stats module'''
 		playerHand = cardDeck.drawCard()
 		if playerHand == 1:
 			playerHand += 10
@@ -33,11 +34,12 @@ class Table:
 		
 
 	def gameAfterDraw(self, cardDeck, playerHand, dealerShow, bet = 1):
-
+		'''After the initial card are drawn in playOneGame, gameAfterDraw manages the rest of the game.  This method should be essentially private.  
+		It is separate so it can be recursively called'''
 		stand = false
 		decision = 0
 
-		if self.ourAces == 2 and playerHand ==20:
+		if self.ourAces == 2 and playerHand == 22:
 			self.ourAces -= 1
 			playerHand -= 10
 		
