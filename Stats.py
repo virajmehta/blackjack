@@ -3,9 +3,10 @@ import random
 
 class Entry:
 	'''Contains a single entry in the matrix of games played. Starts with 10 to dampen the initial effect of games'''
-	def __init__(self, isSplit):
+	def __init__(self):
 		self.numPlayed = [10 for x in range(0, 4)]
 		self.earnings = [0 for x in range(0, 4)]
+		
 		
 
 	def addPlay(self, earnings, play):
@@ -60,5 +61,8 @@ class Entry:
 class Stats:
 	
 	def __init__(self):
-		#TODO: initialize stats model and handke interface
+		table = [[Entry() for total in range(3, 38)] for dealerCard in range(1, 10)]
+		#3-20 are hard 3-20, 21-28 are soft 13-20, and 29-38 are splittable pairs of A-10
+
+		#TODO: figure out what else is needed from the stats app, fill out the rest of the blackjack game logic with a list of drawn cards, and fill out the rest of the 'business logic' of Blackjack.py
 		
