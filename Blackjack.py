@@ -1,23 +1,28 @@
+import sys
 import random
 from deck import Deck
-
+from Stats import Stats
 
 
 
 
 def readOptions():
 	'''reads in the number of decks of cards so the model can have the correct state space'''
-	pass
+	argc = 0
+	while argc < len(sys.argv):
+		if sys.argv[argc] == '-d':
+			numDecks = sys.argv[argc + 1]
+			argc += 1
+		elif sys.argv[argc] == '-n':
+			numGames = sys.argv[argc + 1]
+			argc += 1
+		argc += 1
 
-def setUpState(numDecks):
-	'''	This function sets up the number of decks and the lengths of the simulation.'''
-
-	return Deck(numDecks)
 	
 
-def setUpStats():
-	'''This function sets up the record-keeping for the games'''
-	pass
+
+	
+
 
 def runTrials(numGames):
 	'''This function runs numGames iterations of BlackJack and saves the statistics in our stats module'''
@@ -35,12 +40,11 @@ def main():
 	numDecks = 1
 	numGames = 1
 	readOptions()
-	cardDeck = setUpState(numDecks)
-	
+	cardDeck = Deck(numDecks)
+	stats = Stats()
 	
 
-	setUpStats()
-	runTrials(numGames)
+	runTrials(numGames, stats)
 	analyzeStats()
 	printResults()
 

@@ -10,7 +10,9 @@ class Table:
 		pass
 
 	def decide(self, stats, playerHand, dealerShow):
-		pass
+		'''When given a set of parameters for the blackjack decision, decide returns the random value from stats that covers this scenario'''
+
+		return stats.get
 
 
 
