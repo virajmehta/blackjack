@@ -70,14 +70,14 @@ class Entry:
 class Stats:
 	
 	def __init__(self):
-		self.history = [[Entry(true) if total > 28 else Entry(false) for total in range(3, 38)] for dealerCard in range(1, 10)]
+		self.history = [[Entry(true) if total > 28 else Entry(false) for total in range(3, 39)] for dealerCard in range(1, 10)]
 		#3-20 are hard 3-20, 21-28 are soft 13-20, and 29-38 are splittable pairs of A-10
 
 	def getRandomPlay(self, ourTotalCode, showCard):
 		return self.history[showCard][ourTotalCode].getNextPlay()
 
 	def getCorrectPlayMatrix(self):
-		return [[self.history[dealerCard][total].getBestPlay() for total in range(3, 38)] for dealerCard in range(1, 10)]
+		return [[self.history[dealerCard][total].getBestPlay() for total in range(3, 39)] for dealerCard in range(1, 10)]
 
 		#TODO: figure out what else is needed from the stats app, fill out the rest of the blackjack game logic with a list of drawn cards, and fill out the rest of the 'business logic' of Blackjack.py
 		
