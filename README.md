@@ -15,6 +15,7 @@ Future development might include:
 card counting and variable betting 
 options in the ruleset a little larger than just number of decks (soft 17 rule, split rule, etc.)
 true randomness leveraging the RANDOM.ORG API 
+after training, having the stats module play blackjack and finding how good it is!
 
 There are a couple know flaws in this (and I'm sure plenty of bugs to find!):
 

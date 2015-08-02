@@ -16,13 +16,13 @@ class Deck:
 
 		#Shuffle the deck at the start
 		random.shuffle(self.cardList)
-		self.tillShuffle = int(numDecks * 52 * random.uniform(0.6, 0.8))
+		self.tillShuffle = int(self.numDecks * 52 * random.uniform(0.6, 0.8))
 
 	def __init__(self, numDecks):
 		self.tillShuffle = int(numDecks * 52 * random.uniform(0.6, 0.8))
 		self.cardList = []
 		self.numDecks = numDecks
-		self.cleanShuffle(numDecks)
+		self.cleanShuffle()
 
 	def drawCard(self):
 		self.tillShuffle -= 1

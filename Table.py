@@ -31,7 +31,7 @@ class Table:
 				return playerHand - 8 - 10 #8 for removing soft encoding and 10 for hardening the ace
 
 		if nextCard == 1 and playerHand + 11 < 21:
-			return nextCard += 11 + 8 #11 for soft ace and 8 for soft encoding
+			return nextCard + 11 + 8 #11 for soft ace and 8 for soft encoding
 
 		if nextCard == 1 and playerHand + 11 == 21:	#SOFT 21
 			return 0
@@ -52,10 +52,10 @@ class Table:
 
 		nextCard = cardDeck.drawCard()
 		while dealerCard <= 21:
-			if (!soft and dealerCard > 16) or dealerCard > 17:  #Dealer hits on soft 17
+			if (not soft and dealerCard > 16) or dealerCard > 17:  #Dealer hits on soft 17
 				return dealerCard
 			if nextCard == 1 and dealerCard + 11 <= 21:
-				soft = true
+				soft = True
 				nextCard += 10
 			dealerCard += nextCard
 			if dealerCard > 21 and soft:
@@ -86,9 +86,9 @@ class Table:
 		elif playerHand == 1 or secondCard == 1:
 			playerHand += 10 + secondCard + 8 #8 for soft encoding, 10 for softening the ace
 
-		gameAfterDraw(self, cardDeck, playerHand, dealerCard, stats, true)
+		self.gameAfterDraw(cardDeck, playerHand, dealerCard, stats, True)
 
-	def record(self, playerHand, dealerCard, play, stats, earnings, orig = false):
+	def record(self, playerHand, dealerCard, play, stats, earnings, orig = False):
 		if orig:
 			self.games += 1
 			self.earnings += earnings
@@ -97,57 +97,57 @@ class Table:
 	def getEarnings(self, playerHand, dealer, bet):
 		if dealer == -1 or playerHand > dealer:
 			return bet
-		elif dealer == playerHand
+		elif dealer == playerHand:
 			return 0
-		else
+		else:
 			return -1 * bet
 
 
-	def gameAfterDraw(self, cardDeck, playerHand, dealerCard, stats, canDouble = false, bet = 1):
+	def gameAfterDraw(self, cardDeck, playerHand, dealerCard, stats, canDouble = False, bet = 1):
 		'''After the initial card are drawn in playOneGame, gameAfterDraw manages the rest of the game.  This method should be essentially private.  
 		It is separate so it can be recursively called'''
 
 		play = stats.getRandomPlay(playerHand, dealerCard)
-		while !canDouble and play = 2:
+		while not canDouble and play == 2:
 			play = stats.getRandomPlay(playerHand, dealerCard)
 
 		if play == 0:											#STAND
 			dealer = self.dealerPlay(cardDeck, dealerCard)
 			earnings = self.getEarnings(playerHand, dealer, bet)
-			self.record(playerHand, dealerCard, play, stats, earnings, true)
+			self.record(playerHand, dealerCard, play, stats, earnings, True)
 			return earnings
 
 		if play == 1:											#HIT
-			playerHand = self.addcard(playerHand, cardDeck.drawCard())
+			newHand = self.addCard(playerHand, cardDeck.drawCard())
 			if playerHand == 0:		#total = 21
 				dealer = self.dealerPlay(cardDeck, dealerCard)
 				earnings = self.getEarnings(playerHand, dealer, bet)
-				self.record(playerHand, dealerCard, play, stats, earnings, true)
+				self.record(playerHand, dealerCard, play, stats, earnings, True)
 				return earnings
 			elif playerHand == -1:	#player bust
 				earnings = bet * -1
-				self.record(playerHand, dealerCard, play, stats, earnings, true)
+				self.record(playerHand, dealerCard, play, stats, earnings, True)
 				return earnings
-			else					#continue playing
-				earnings = self.gameAfterDraw(cardDeck, playerHand, dealerCard, stats, bet)
+			else:					#continue playing
+				earnings = self.gameAfterDraw(cardDeck, newHand, dealerCard, stats, bet)
 				self.record(playerHand, dealerCard, play, stats, earnings)
 				return earnings
 		if play == 2:											#DOUBLE
-			playerHand = self.addCard(playerHand, cardDeck.drawCard())
+			newHand = self.addCard(playerHand, cardDeck.drawCard())
 			if playerHand == -1:	#BUST
 				earnings = bet * -2
-				self.record(playerHand, dealerCard, play, stats, earnings, true)
+				self.record(playerHand, dealerCard, play, stats, earnings, True)
 				return earnings
-			else					#not bust
+			else:					#not bust
 				dealer = self.dealerPlay(cardDeck, dealerCard)
 				earnings = self.getEarnings(playerHand, dealer, bet * 2)
-				self.record(playerHand, dealerCard, play, stats, earnings, true)
+				self.record(playerHand, dealerCard, play, stats, earnings, True)
 				return earnings
 		if play == 3:											#SPLIT
 			playerHand -= 28 #remove split encoding
 			hand1 = self.addCard(playerHand, cardDeck.drawCard())
 			hand2 = self.addCard(playerHand, cardDeck.drawCard())
-			earnings = self.gameAfterDraw(cardDeck, hand1, dealerCard, stats, true) + self.gameAfterDraw(cardDeck, hand2, dealerCard, stats, true)
+			earnings = self.gameAfterDraw(cardDeck, hand1, dealerCard, stats, True) + self.gameAfterDraw(cardDeck, hand2, dealerCard, stats, True)
 			self.record(playerHand + 28, dealerCard, play, stats, earnings)
 			self.games -= 1
 			return earnings

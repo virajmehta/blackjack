@@ -3,8 +3,8 @@ import random
 class Entry:
 	'''Contains a single entry in the matrix of games played. Starts with 10 to dampen the initial effect of games'''
 	def __init__(self, isSplit):
-		self.numPlayed = [10 for x in range(0, 3)] if isSplit else [10 for x in range(0, 4)]
-		self.earnings = [0 for x in range(0, 3)] if isSplit else [0 for x in range(0, 4)]
+		self.numPlayed = [10 for x in range(0, 4)] if isSplit else [10 for x in range(0, 3)]
+		self.earnings = [0 for x in range(0, 4)] if isSplit else [0 for x in range(0, 3)]
 		
 		
 
@@ -59,7 +59,7 @@ class Entry:
 	def getBestPlay(self):
 		maxVal = -3  #smaller than any possible value
 		maxPlay = -1 #invalid play
-		for play in range(0, len(numPlayed)):
+		for play in range(0, len(self.numPlayed)):
 			val = self.getExpectedValue(play)
 			if val > maxVal:
 				maxVal = val
@@ -76,7 +76,7 @@ class Stats:
 		return self.history[dealerCard][playerCode].getNextPlay()
 
 	def getCorrectPlayMatrix(self):
-		return {dealerCard : {total : entry.getBestPlay() for total, entry in row} for dealerCard, row in self.history}
+		return {dealerCard : {total : entry.getBestPlay() for total, entry in row.iteritems()} for dealerCard, row in self.history.iteritems()}
 
 	def addPlay(self, playerCode, dealerCard, earnings, play):
 		self.history[dealerCard][playerCode].addPlay(earnings, play)
