@@ -3,6 +3,8 @@ import random
 from deck import Deck
 from Stats import Stats
 from Table import Table
+import datetime
+import csv
 
 #weaknesses: no limit on splits, new dealer draw for every split hand after the original card, no bet modulation
 
@@ -31,11 +33,25 @@ def runTrials(numGames, stats, table, deck):
 		table.playOneGame(deck, stats)
 		if deck.tillShuffle <= 0:
 			deck.cleanShuffle()
-	pass
 
-def analyzeStats():
+
+def analyzeStats(stats):
 	'''This is where we make nice pretty numbers from the statistical garbage that will definitely exist earlier'''
-	pass
+
+	results = stats.getCorrectPlayMatrix()
+	now = datetime.today()
+	name = 'Blackjack {}.{}.{}.{}.{}.{}.csv'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
+	fileOutput = open(name, 'wb')
+
+	writer = csv.writer(fileOutput, dialect='excel')
+	plays = {0 : 'S', 1 : 'H', 2 : 'D', 3 : 'L'}
+	for dealerCard in results:
+		writer.writerow(plays[hand] for hand in dealerCard)
+
+	close(fileOutput)
+
+
+	return name 
 
 def printResults():
 	'''This function prints the results of the math that was done in this situation'''
@@ -51,9 +67,10 @@ def main():
 	
 
 	runTrials(numGames, stats)
-	analyzeStats()
-	printResults()
-
+	name = analyzeStats()
+	print('SUCCESS!\nGames Played: {}\nNet Earnings: {}\nNet Single-game Expected Value: {}\nFull results written to file {}'.format(table.games,
+		 table.earnings, table.games / table.earnings, name))
+	return
 
 if __name__ == "__main__":
     main()
