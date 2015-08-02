@@ -1,4 +1,3 @@
-import numpy
 import random
 
 class Entry:
@@ -24,7 +23,7 @@ class Entry:
 		myAss = random.random()
 
 		for play in range(0, len(self.numPlayed)):
-			if myAss < probs[play]
+			if myAss < probs[play]:
 				return play
 
 		return -1
@@ -70,14 +69,14 @@ class Entry:
 class Stats:
 	
 	def __init__(self):
-		self.history = [[Entry(true) if total > 28 else Entry(false) for total in range(3, 39)] for dealerCard in range(1, 10)]
+		self.history = {dealerCard : {playerCard : Entry(True) if playerCard > 28 else Entry(False) for playerCard in range(3, 39)} for dealerCard in range(1, 11)}
 		#3-20 are hard 3-20, 21-28 are soft 13-20, and 29-38 are splittable pairs of A-10
 
 	def getRandomPlay(self, playerCode, dealerCard):
 		return self.history[dealerCard][playerCode].getNextPlay()
 
 	def getCorrectPlayMatrix(self):
-		return [[self.history[dealerCard][total].getBestPlay() for total in range(3, 3)] for dealerCard in range(1, 10)]
+		return {dealerCard : {total : entry.getBestPlay() for total, entry in row} for dealerCard, row in self.history}
 
 	def addPlay(self, playerCode, dealerCard, earnings, play):
 		self.history[dealerCard][playerCode].addPlay(earnings, play)
