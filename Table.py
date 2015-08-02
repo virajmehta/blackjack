@@ -50,17 +50,19 @@ class Table:
 		if soft: 
 			dealerCard += 10
 
-		nextCard = cardDeck.drawCard()
+		
 		while dealerCard <= 21:
 			if (not soft and dealerCard > 16) or dealerCard > 17:  #Dealer hits on soft 17
 				return dealerCard
+			nextCard = cardDeck.drawCard()
 			if nextCard == 1 and dealerCard + 11 <= 21:
 				soft = True
 				nextCard += 10
 			dealerCard += nextCard
 			if dealerCard > 21 and soft:
-				soft = false
+				soft = False
 				dealerCard -= 10
+			
 
 		return -1
 
@@ -85,6 +87,9 @@ class Table:
 
 		elif playerHand == 1 or secondCard == 1:
 			playerHand += 10 + secondCard + 8 #8 for soft encoding, 10 for softening the ace
+
+		else:
+			playerHand += secondCard
 
 		self.gameAfterDraw(cardDeck, playerHand, dealerCard, stats, True)
 
@@ -119,12 +124,12 @@ class Table:
 
 		if play == 1:											#HIT
 			newHand = self.addCard(playerHand, cardDeck.drawCard())
-			if playerHand == 0:		#total = 21
+			if newHand == 0:		#total = 21
 				dealer = self.dealerPlay(cardDeck, dealerCard)
-				earnings = self.getEarnings(playerHand, dealer, bet)
+				earnings = self.getEarnings(21, dealer, bet)
 				self.record(playerHand, dealerCard, play, stats, earnings, True)
 				return earnings
-			elif playerHand == -1:	#player bust
+			elif newHand == -1:	#player bust
 				earnings = bet * -1
 				self.record(playerHand, dealerCard, play, stats, earnings, True)
 				return earnings
@@ -134,9 +139,14 @@ class Table:
 				return earnings
 		if play == 2:											#DOUBLE
 			newHand = self.addCard(playerHand, cardDeck.drawCard())
-			if playerHand == -1:	#BUST
+			if newHand == -1:	#BUST
 				earnings = bet * -2
 				self.record(playerHand, dealerCard, play, stats, earnings, True)
+				return earnings
+			elif newHand == 0: #total = 21
+				dealer = self.dealerPlay(cardDeck, dealerCard)
+				earnings = self.getEarnings(21, dealer, bet * 2)
+				self.record(21, dealerCard, play, stats, earnings, True)
 				return earnings
 			else:					#not bust
 				dealer = self.dealerPlay(cardDeck, dealerCard)
