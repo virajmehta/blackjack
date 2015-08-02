@@ -2,8 +2,9 @@ import sys
 import random
 from deck import Deck
 from Stats import Stats
+from Table import Table
 
-
+#weaknesses: no limit on splits, new dealer draw for every split hand after the original card, no bet modulation
 
 
 def readOptions():
@@ -24,8 +25,12 @@ def readOptions():
 	
 
 
-def runTrials(numGames):
+def runTrials(numGames, stats, table, deck):
 	'''This function runs numGames iterations of BlackJack and saves the statistics in our stats module'''
+	for game in range(0, numGames):
+		table.playOneGame(deck, stats)
+		if deck.tillShuffle <= 0:
+			deck.cleanShuffle()
 	pass
 
 def analyzeStats():
@@ -37,11 +42,12 @@ def printResults():
 	pass
 	
 def main():
-	numDecks = 1
+	numDecks = 4
 	numGames = 1
 	readOptions()
 	cardDeck = Deck(numDecks)
 	stats = Stats()
+	table = Table()
 	
 
 	runTrials(numGames, stats)
