@@ -82,7 +82,6 @@ class Table:
 			return
 
 		if playerHand == secondCard:
-			playerHand *= 2
 			playerHand += 28 #split encoding
 
 		elif playerHand == 1 or secondCard == 1:
@@ -156,8 +155,10 @@ class Table:
 		if play == 3:											#SPLIT
 			playerHand -= 28 #remove split encoding
 			hand1 = self.addCard(playerHand, cardDeck.drawCard())
+			hand1Earnings = self.gameAfterDraw(cardDeck, hand1, dealerCard, stats, True) if hand1 != 0 else bet
 			hand2 = self.addCard(playerHand, cardDeck.drawCard())
-			earnings = self.gameAfterDraw(cardDeck, hand1, dealerCard, stats, True) + self.gameAfterDraw(cardDeck, hand2, dealerCard, stats, True)
+			hand2Earnings = self.gameAfterDraw(cardDeck, hand2, dealerCard, stats, True) if hand2 != 0 else bet
+			earnings = hand1Earnings + hand2Earnings
 			self.record(playerHand + 28, dealerCard, play, stats, earnings)
 			self.games -= 1
 			return earnings

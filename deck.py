@@ -1,5 +1,4 @@
 import random
-
 class Deck:
 	'''Holds the state of the decok of Cards for the simulation'''
 
@@ -8,12 +7,12 @@ class Deck:
 		self.cardList = []
 		#initializing card list in deck
 		for deck in range(0, self.numDecks):
-			for card in range (1, 10):
-				self.cardList.append(card)
+			for suit in range(0, 4):
+				for card in range (1, 10):
+					self.cardList.append(card)
 
-			for i in range(0, 4):
-				self.cardList.append(10)
-
+				for i in range(0, 4):
+					self.cardList.append(10)
 		#Shuffle the deck at the start
 		random.shuffle(self.cardList)
 		self.tillShuffle = int(self.numDecks * 52 * random.uniform(0.6, 0.8))
