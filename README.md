@@ -1,6 +1,8 @@
 Viraj Mehta
 2015.8.1
 
+This project is in Python 3.
+
 This is my pass at writing a program that learns blackjack.
 
 It was built from vanilla Python as a project that should ideally improve my facility with Python, ability to design software, and Blackjack knowledge.
