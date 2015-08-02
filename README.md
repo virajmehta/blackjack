@@ -9,7 +9,10 @@ It is implemented with a 3D grid of expected values for each dealer card, hand p
 
 Currently, I am building in a few option and the output to a spreadsheet.
 
-Future development might include card counting and variable betting, options in the ruleset a little larger than just number of decks (soft 17 rule, split rule, etc.).  
+Future development might include:
+card counting and variable betting 
+options in the ruleset a little larger than just number of decks (soft 17 rule, split rule, etc.)
+true randomness leveraging the RANDOM.ORG API 
 
 There are a couple know flaws in this (and I'm sure plenty of bugs to find!):
 
