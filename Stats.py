@@ -81,5 +81,18 @@ class Stats:
 	def addPlay(self, playerCode, dealerCard, earnings, play):
 		self.history[dealerCard][playerCode].addPlay(earnings, play)
 
-		#TODO: figure out what else is needed from the stats app, fill out the rest of the blackjack game logic with a list of drawn cards, and fill out the rest of the 'business logic' of Blackjack.py
+	def getEVMatrix(self):
+		matrix = []
+		for dealerCard in range(1, 11):
+			row = []
+			for playerCard in range(3, 39):
+				entry = self.history[dealerCard][playerCard]
+				if len(entry.numPlayed) == 3:
+					row.append('S:{:.3} H:{:.3} D:{:.3}        '.format(entry.getExpectedValue(0), entry.getExpectedValue(1), entry.getExpectedValue(2)))
+				else:
+					row.append('S:{:.3} H:{:.3} D:{:.3} L:{:.3}'.format(entry.getExpectedValue(0), entry.getExpectedValue(1), entry.getExpectedValue(2), entry.getExpectedValue(3)))
+			matrix.append(row)
+		return matrix
+
+		
 		
