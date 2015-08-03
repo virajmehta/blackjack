@@ -40,8 +40,8 @@ def runTrials(numGames, stats, table, deck):
 	'''This function runs numGames iterations of BlackJack and saves the statistics in our stats module'''
 	for game in range(0, numGames):
 		table.playOneGame(deck, stats)
-		#if table.games != game + 1:
-			#pdb.set_trace()
+		if game == 900000:
+			pdb.set_trace()
 		if deck.tillShuffle <= 0:
 			deck.cleanShuffle()
 
@@ -61,10 +61,12 @@ def analyzeStats(stats):
 		writer.writerow(encodedPlays)
 
 	fileOutput.close()
-	pivotData = izip(*csv.reader(open('temp.csv', 'rb')))
-	csv.writer(open(name, 'wb')).writerows(pivotData)
-
-
+	rowHeadings = ['H{}'.format(i) if i <= 20 else 'S{}'.format(i - 8) if i <= 29 else 'P{}'.format((i - 28) * 2) for i in range(3, 38)]
+	pivotData = izip(rowHeadings, *csv.reader(open('temp.csv', 'rb')))
+	newFile = open(name, 'wb')
+	writer = csv.writer(newFile, dialect='excel')
+	writer.writerow([i for i in range(0, 11)])
+	csv.writer(newFile).writerows(pivotData)
 	os.remove('temp.csv')
 	return name 
 
@@ -81,6 +83,7 @@ def main():
 
 	runTrials(options.numGames, stats, table, cardDeck)
 	name = analyzeStats(stats)
+	pdb.set_trace()
 	print('SUCCESS!\nGames Played: {}\nNet Earnings: {}\nNet Single-game Expected Value: {}\nFull results written to file {}'.format(table.games,
 		 table.earnings, table.earnings / table.games, name))
 	return

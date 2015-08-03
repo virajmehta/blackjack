@@ -13,7 +13,7 @@ class Entry:
 		self.earnings[play] += earnings
 
 	def getExpectedValue(self, play):
-		return self.earnings[play] / self.numPlayed[play]
+		return self.earnings[play] / float(self.numPlayed[play])
 
 	def randomize(self, probs):
 		sumProb = 0

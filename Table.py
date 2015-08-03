@@ -121,7 +121,7 @@ class Table:
 			self.record(playerHand, dealerCard, play, stats, earnings, True)
 			return earnings
 
-		if play == 1:											#HIT
+		elif play == 1:											#HIT
 			newHand = self.addCard(playerHand, cardDeck.drawCard())
 			if newHand == 0:		#total = 21
 				dealer = self.dealerPlay(cardDeck, dealerCard)
@@ -136,7 +136,8 @@ class Table:
 				earnings = self.gameAfterDraw(cardDeck, newHand, dealerCard, stats, bet)
 				self.record(playerHand, dealerCard, play, stats, earnings)
 				return earnings
-		if play == 2:											#DOUBLE
+
+		elif play == 2:											#DOUBLE
 			newHand = self.addCard(playerHand, cardDeck.drawCard())
 			if newHand == -1:	#BUST
 				earnings = bet * -2
@@ -152,7 +153,8 @@ class Table:
 				earnings = self.getEarnings(playerHand, dealer, bet * 2)
 				self.record(playerHand, dealerCard, play, stats, earnings, True)
 				return earnings
-		if play == 3:											#SPLIT
+
+		else:											#SPLIT
 			playerHand -= 28 #remove split encoding
 			hand1 = self.addCard(playerHand, cardDeck.drawCard())
 			hand1Earnings = self.gameAfterDraw(cardDeck, hand1, dealerCard, stats, True) if hand1 != 0 else bet
