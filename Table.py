@@ -1,5 +1,6 @@
 from deck import Deck
 
+
 class Table:
 	'''Holds the cards on the table and draws them from the Deck'''
 
@@ -99,6 +100,11 @@ class Table:
 		stats.addPlay(playerHand, dealerCard, earnings, play)
 
 	def getEarnings(self, playerHand, dealer, bet):
+		if playerHand >= 29:
+			playerHand -= 28
+			playerHand *= 2
+		elif playerHand >= 21
+			playerHand -= 8
 		if dealer == -1 or playerHand > dealer:
 			return bet
 		elif dealer == playerHand:
@@ -139,11 +145,11 @@ class Table:
 
 		elif play == 2:											#DOUBLE
 			newHand = self.addCard(playerHand, cardDeck.drawCard())
-			if newHand == -1:	#BUST
+			if newHand == -1:		#BUST
 				earnings = bet * -2
 				self.record(playerHand, dealerCard, play, stats, earnings, True)
 				return earnings
-			elif newHand == 0: #total = 21
+			elif newHand == 0: 		#total = 21
 				dealer = self.dealerPlay(cardDeck, dealerCard)
 				earnings = self.getEarnings(21, dealer, bet * 2)
 				self.record(21, dealerCard, play, stats, earnings, True)
