@@ -8,7 +8,7 @@ import datetime
 import csv
 from itertools import izip
 import argparse
-import pdb
+
 
 #weaknesses: no limit on splits, new dealer draw for every split hand after the original card, no bet modulation
 '''
@@ -70,7 +70,7 @@ def analyzeStats(stats):
 		writer.writerow(encodedPlays)
 
 	fileOutput.close()
-	rowHeadings = ['H{}'.format(i) if i <= 20 else 'S{}'.format(i - 8) if i <= 29 else 'P{}'.format((i - 28) * 2) for i in range(3, 38)]
+	rowHeadings = ['H{}'.format(i) if i <= 20 else 'S{}'.format(i - 8) if i < 29 else 'P{}'.format((i - 28) * 2) for i in range(3, 38)]
 	pivotData = izip(rowHeadings, *csv.reader(open('temp.csv', 'rb')))
 	newFile = open(name, 'wb')
 	writer = csv.writer(newFile, dialect='excel')
@@ -85,7 +85,7 @@ def outputEV(stats, name):
 	fileOutput = open(newName, 'wb')
 	writer = csv.writer(fileOutput, dialect='excel')
 	writer.writerow([i for i in range(0, 11)])
-	rowHeadings = ['H{}'.format(i) if i <= 20 else 'S{}'.format(i - 8) if i <= 29 else 'P{}'.format((i - 28) * 2) for i in range(3, 38)]
+	rowHeadings = ['H{}'.format(i) if i <= 20 else ('S{}'.format(i - 8) if i < 29 else 'P{}'.format((i - 28) * 2)) for i in range(3, 38)]
 	matrix = stats.getEVMatrix()
 	pivotData = izip(rowHeadings, *matrix)
 	writer.writerows(pivotData)
@@ -110,6 +110,7 @@ def main():
 	printResults(name, table)
 	if options.v:
 		outputEV(stats, name)
+	import pdb; pdb.set_trace()
 	return
 
 if __name__ == "__main__":

@@ -46,7 +46,7 @@ class Entry:
 					minVal = expectedValue[play]
 					minPlay = play
 			expectedValue[minPlay] = 4 	#arbitrary bigger value
-			probs[minPlay] = remainingProb / (rank * ((1 + (maxVal - minVal)) ** 2))
+			probs[minPlay] = remainingProb / (rank * ((1 + (maxVal - minVal)) ** 2))  #LOOK HERE THIS IS THE GUESSING ALGO
 			remainingProb -= probs[minPlay]
 
 		for play in range(0, len(self.numPlayed)):
