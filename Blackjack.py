@@ -23,23 +23,14 @@ It takes the parameters numGames, the number of iterations of blackjack, and num
 It outputs a csv timestamped with its blackjack strategy inside.
 '''
 
-def readOptions():
+def readOptions(args):
 	'''reads in the number of decks of cards so the model can have the correct state space'''
-	argc = 0
-	while argc < len(sys.argv):
-		if sys.argv[argc] == '-d':
-			numDecks = sys.argv[argc + 1]
-			argc += 1
-		elif sys.argv[argc] == '-n':
-			numGames = sys.argv[argc + 1]
-			argc += 1
-		argc += 1
 
 	parser = argparse.ArgumentParser(description='Blackjack Learning System.')
 	parser.add_argument('numGames', default=100, type=int, nargs='?')
 	parser.add_argument('numDecks', default=4, type=int, nargs='?')
 	parser.add_argument('-v', action='store_true')
-	return parser.parse_args(sys.argv[1:])
+	return parser.parse_args(args)
 
 	
 
@@ -100,8 +91,8 @@ def printResults(name, table):
 		 table.earnings, table.earnings / table.games, name))
 
 	
-def main():
-	options = readOptions()
+def main(args):
+	options = readOptions(args)
 	cardDeck = Deck(options.numDecks)
 	stats = Stats()
 	table = Table()
@@ -110,8 +101,7 @@ def main():
 	printResults(name, table)
 	if options.v:
 		outputEV(stats, name)
-	import pdb; pdb.set_trace()
 	return
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
